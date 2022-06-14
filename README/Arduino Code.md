@@ -1,7 +1,5 @@
 # Arduino Code
 
-# Overview
-
 If you aren’t familiar with Arduinos, here is a quick rundown of how Arduino code differs from C/C++ code. The key difference is that there is no *main()* function that acts as the single entrance point of your code. Rather, there is *setup()* which contains all of the code that runs at startup and *loop()* which runs after the *setup()* function and, as the name implies, repeats while the Arduino is on. 
 
 So, in *loop()* I display one of three screens: a range finder input screen in which the user points the gun at their chosen target; a height input screen in which the user input’s their height above the ground in feet; and a targeting screen in which the users aims the gun at the location which would hit the target.
