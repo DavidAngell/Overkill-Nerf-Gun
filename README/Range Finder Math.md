@@ -17,6 +17,10 @@ $$
 $$
 
 $$
+...
+$$
+
+$$
 \Delta y = \Delta x\tan(\theta)+ \frac{{\Delta x}^{2}}{v^{2}{\cos}^{2}(\theta)}
 $$
 
