@@ -8,8 +8,6 @@ Documentation and code explanation for a Nerf Gun with a range finder that I mad
 
 **[Gun Design](README/Gun%20Design.md)**
 
-**[Testing](README/Testing.md)**
-
 # Code
 
 **[Range Finder: Math](README/Range%20Finder%20Math.md)**

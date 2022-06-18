@@ -80,4 +80,121 @@ namespace Accelerometer {
 
 ## RangeFinder.cpp
 
+I’m too lazy to explain this right now :(
+
+
+
 # main.cpp
+
+The *main.cpp* file starts by running the *begin()* method for the ranger finder, accelerometer, and display inside of *setup()*. Then, it sets the pin mode of the “confirm” and “change screen” pins on the gun controller as INPUT_PULLUP; meaning that it reads whether the pin is pulled to +5v or ground and uses the Arduino Nano’s built-in pull-up resistors to do so.
+
+```cpp
+uint8_t changeScreenPin = 5; //D5
+uint8_t confirmInputPin = 6; //D6
+
+void setup() {
+	Serial.begin(115200);
+
+	RangeFinder::begin();
+	Accelerometer::begin();
+	Display::begin();
+
+	pinMode(changeScreenPin, INPUT_PULLUP);
+	pinMode(confirmInputPin, INPUT_PULLUP);
+}
+```
+
+After this, the Arduino runs the *loop()* for the rest of the on-time of the device. Within *loop()*, we check whether the “change screen” pin has been pressed (pulled up to +5v), and if it has, the current screen number gets updated accordingly. Otherwise, the Arduino just checks what the screen number mod 3 is because there are 3 screens. This method will cause an overflow after every 256 screen changes, but (1) it won’t really be too noticeable to the user because they will just have to press the button again and (2) I’m too lazy to fix it —if you want it fixed, make a pull request so I can ignore it :)
+
+```cpp
+int screen = 0; // 0: range finder, 1: height input, 2: firing screen
+
+namespace Screens {
+	void showDistanceScreen() {
+		...
+	}
+
+	void showHeightInputScreen() {
+		...
+	}
+
+	void showFiringScreen() {
+		...
+	}
+
+	void setScreen(int screenNum) {
+		switch (screen % 3) {
+			case 0:
+				showDistanceScreen();
+				break;
+
+			case 1:
+				showHeightInputScreen();
+				break;
+
+			case 2:
+				showFiringScreen();
+				break;
+		}
+	}
+}
+
+void loop() {
+	if (digitalRead(changeScreenPin) == HIGH) {
+		screen++;
+		Screens::setScreen(screen);
+		delay(1000);
+	}
+
+	Screens::setScreen(screen);
+}
+```
+
+The next major part of *main.cpp* are the two functions which read the firing height pot and translate the resistance of it into a height in feet and meters respectively. The math itself is a tad arbitrary —I just divided *sensorVal* by 12 because it gave me a nice result of an 85 inch / 2.165 meter max.
+
+```cpp
+String getAnalogHeightInFeet() {
+	uint16_t sensorVal = analogRead(A0); // returns value from 0 to 1023
+	uint8_t heightInInches = round(sensorVal / 12); // max 85 inches
+	uint8_t feet = heightInInches / 12;
+	uint8_t inches = heightInInches % 12;
+
+	return (String) feet + "' " + inches + '"'; 
+}
+
+float getAngalogHeightInMeters() {
+	uint16_t sensorVal = analogRead(A0); // returns value from 0 to 1023
+	float heightInMeters = 0.0254 * sensorVal / 12.0; // max 2.165 metes
+	return heightInMeters;
+}
+```
+
+Finally, we have the application of the math —[explained here](Range%20Finder%20Math.md)— that is used to calculate the firing angle of the gun.
+
+```cpp
+namespace WeirdBSMagicMath {
+	float newtonIteration(float prevAngle, float v_0, float delta_x, float delta_y) {
+		float tanAngle = (float) tan(prevAngle);
+		float secSquaredAngle = (float) (1 / (cos(prevAngle) * cos(prevAngle)));
+		float deltaXOverVelocity = 4.9 * delta_x * delta_x / (v_0 * v_0);
+
+		return prevAngle - (delta_x * tanAngle - deltaXOverVelocity * secSquaredAngle - delta_y)
+						/ (delta_x * secSquaredAngle - 2 * deltaXOverVelocity * secSquaredAngle * tanAngle);
+	}
+
+	float calculateFiringAngle(float hypotenuse, float measurmentsAngleInDegrees, 
+														 float v_0, float y_0) 
+	{
+		float measurmentsAngleInRadians = measurmentsAngleInDegrees * M_PI / 180;
+		float delta_x = hypotenuse * ((float) cos(measurmentsAngleInRadians));
+		float delta_y = hypotenuse * ((float) sin(measurmentsAngleInRadians)) - y_0;
+
+		float angle = 0;
+		for (uint8_t i = 0; i < 4; i++) {
+			angle = newtonIteration(angle, v_0, delta_x, delta_y);
+		}
+
+		return angle * 180 / M_PI;
+	}
+}
+```

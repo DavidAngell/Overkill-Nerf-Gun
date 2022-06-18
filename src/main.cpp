@@ -57,7 +57,7 @@ namespace WeirdBSMagicMath {
 			angle = newtonIteration(angle, v_0, delta_x, delta_y);
 		}
 
-		return angle * 180 / M_PI; // Include check later
+		return angle * 180 / M_PI;
 	}
 }
 
