@@ -1,6 +1,6 @@
 # Overkill-Nerf-Gun
 
-Documentation and code explanation for a Nerf Gun with a range finder that I made as a final project / friendly competition is AP Physics.
+(Unfinished) Documentation and code explanation for a Nerf Gun with a range finder that I made as a final project / friendly competition is AP Physics.
 
 # Design Overview
 
