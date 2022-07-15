@@ -313,10 +313,6 @@ Get CDDX File Here: [https://crcit.net/c/0befd373d41f49899402f0b9a3a5f62a](https
 
 It looks a lot more complicated than it actually is.
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
 ### Flywheel Circuitry
 
 ![Get CDDX File Here: [https://crcit.net/c/0befd373d41f49899402f0b9a3a5f62a](https://crcit.net/c/0befd373d41f49899402f0b9a3a5f62a)](README/Flywheel%20Circuitry/motor_circuit.png)
