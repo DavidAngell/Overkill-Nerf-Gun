@@ -6,7 +6,7 @@
 
 const float MUZZLE_VELOCITY = 39.5; // in m/s
 
-// Controller Pins and Shit
+// Controller Pins and Stuff
 uint8_t changeScreenPin = 5; //D5
 uint8_t confirmInputPin = 6; //D6
 int screen = 0; // 0: range finder, 1: height input, 2: firing screen
