@@ -29,8 +29,8 @@
 ### Gun Overview
 
 <div align="left">
-	<img src="README/Gun%20Design/gun_far.png" alt="Logo" width="45%" height="auto">
-	<img src="README/Gun%20Design/gun_controller.png" alt="Logo" width="45%" height="auto">
+	<img src="README/Gun%20Design/gun_far.png" alt="Logo" width="49%" height="auto">
+	<img src="README/Gun%20Design/gun_controller.png" alt="Logo" width="49%" height="auto">
 </div>
 
 <div><br /></div>
