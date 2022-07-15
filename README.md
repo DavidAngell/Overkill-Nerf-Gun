@@ -19,3 +19,12 @@
 **[Arduino Range Finder Circuitry](README/Arduino%20Range%20Finder%20Circuitry.md)**
 
 **[Flywheel Circuitry](README/Flywheel%20Circuitry.md)**
+
+<div align="center">
+	<br />
+	<a href="https://paypal.me/davidjangell" align="center" target="_blank">
+		<img src="https://viatesting.files.wordpress.com/2020/03/paypal-donate-button.png" 
+  			width="200"
+ 		/>
+	</a>
+</div>
